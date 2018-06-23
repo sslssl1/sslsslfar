@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+
+.tabs{
+  
+   overflow: hidden;
+   float: left;
+   /*margin-left: 100px;
+   margin-top:10px; */
+   border-right: 1px solid #7e5957;
+}
+
+.selltabs{
+	
+   overflow: hidden;
+   float: left;
+  margin-left:24%;
+   border-right: 1px solid #7e5957;
+}
+
+.tab{
+   width:130px;
+   height: 40px;
+   border: 1px solid #7e5957;
+  border-radius:3px 0px 0px 3px;
+  border-right:none;
+   margin-left: 5px;
+ /*   float: left; */
+   text-align: center;
+   color: #7e5957;
+   line-height: 35px;
+   font-weight: bold;
+   margin-bottom: 5px;
+   cursor:  pointer;
+}
+.tab:last-child{
+	margin-bottom:0px;
+}
+
+.active a{	
+	color: white;
+	text-decoration: none;
+}
+a{
+	color: #7e5957;
+	text-decoration: none;
+	display:block;
+}
+
+.active{
+   background: #7e5957;
+   color: white;
+}
+
+iframe{
+	margin-left:10px;
+	width:760px;
+	height:1000px;
+	border:0px;
+	z-index: 100;
+}

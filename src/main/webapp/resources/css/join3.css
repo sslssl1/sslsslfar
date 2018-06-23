@@ -1,0 +1,226 @@
+@charset "UTF-8";
+/* #container { width:100%; min-height:700px; position:relative; clear:both;  }
+#container div.inner-wrap1 { width:960px;  position:relative; } */
+
+html, body {
+	height: 100%;
+}
+label {
+	display: inline-block;
+	margin-bottom: .5rem;
+	text-align: left;
+}
+body {
+	display: table;
+	width: 100%;
+}
+#searchId{
+	background: #512772;
+	color: white;
+	border:none;
+	cursor: pointer;
+}
+
+.loginBtn{
+	background: #512772;
+	color: white;
+	border:none;
+	cursor: pointer;
+}
+
+.searchPwd{
+	background: #7e5957;
+	color: white;
+	border: none;
+	cursor: pointer;
+	border-radius: 3px;
+	width: 120px;
+	height: 30px;
+	
+}
+#userId { /*ID LABEL 서식  */
+	width: 350px;
+	float: left;
+}
+
+#vCode { /*ID LABEL 서식  */
+	width: 326px;
+	float: left;
+	font-size:10pt;
+}
+
+.h2{
+	color:#7e5957;margin-bottom:20px;
+	text-align:center;	
+	margin-left: 40px;
+}
+
+#addr {
+	width: 350px;
+	float: left;
+}
+.searchBtn{
+	background: #f2f2f2;
+	display: inline-block;
+}
+
+.loginBtn{
+	border: 1px solid #82736e;
+	color: #82736e;
+	cursor: pointer;
+	background: white;
+	border-radius: 3px;
+	padding: 6px 12px 6px 12px;
+}
+#userEmail { /*ID LABEL 서식  */
+	width: 326px;
+	font-size:10pt;
+	float: left;
+}
+
+.join_form { /*mainform을 담고 있는 div구역  */
+	width: 600px;
+	background: #fff;
+	margin: 0 auto;
+	padding: 20px 80px;
+}
+
+#confirmId { /*p 태그의 아이디로 아이디 중복검사 시 사용 가능 여부를 보여줌  */
+	margin-top: -10px;
+}
+.pwd_box{
+	border: 1px solid #dcdcdc;
+	padding:30px;
+	width:480px;
+}
+.h3 {
+	text-align:center;
+	margin-bottom:40px;
+	font-size: 13px;
+	line-height: 16px;
+	color: gray;
+	font-weight: normal;
+	font-family: Roboto, 'Noto Sans KR', sans-serif;
+}
+
+.confirmPwd { /*비밀번호의 불일치 여부를 확인하기위한 p태그 */
+	margin-top: 8px;
+	color: red;
+}
+
+#addrbtn { /*아이디 중복검사 버튼  */
+	background: #82736e;
+	border: none;
+}
+
+
+
+#cancelBt:hover{
+	background: #e2d2f0;
+	
+}
+.loginBtn:hover{
+	background: #e2d2f0;
+}
+
+.searchPwd:hover{
+	background: #f5f1fa;
+	color:#82736e;
+	border: 1px solid #82736e;
+}
+#searchId:hover{
+	background: #f5f1fa;
+	color:#82736e;
+	border: 1px solid #82736e;
+	
+}
+#dupliBt { /*아이디 중복검사 버튼  */
+	float: left;
+	background: #82736e;
+	border: none
+}
+
+#vCodecheck { /*아이디 중복검사 버튼  */
+	float: left;
+	font-size:10pt;
+	background: #7e5957;
+	border: none;
+	width:80px;
+}
+
+#mailsend { /*아이디 중복검사 버튼  */
+	float: left;
+	font-size:10pt;
+	background: #7e5957;
+	border: none;
+}
+
+#find { /*파일 찾기 태그  */
+	width: 260px;
+	display: block;
+	margin: 0 auto;
+}
+
+#joinBt {
+	background: #82736e;
+	border: none
+}
+
+#profile { /*프로필 사진 태그  */
+	width: 100px;
+	height: 130px;
+	margin: 10px 0px;
+}
+.userName{
+	margin-right: 13px;
+}
+.join_form2 {
+	width: 500px;
+	background: #fff;
+	margin: 0 auto;
+	height: 520px;	
+}
+
+.form-group{
+	text-align: center;
+	color: gray;
+	
+}
+.form-group.name{
+	margin-top: 40px;
+}	
+
+.tag_box{
+	border: 1px solid #dcdcdc;
+	padding-top : 0px;
+	padding-bottom : 20px;
+	height: 200px;
+}
+.form-group.text-center{
+	margin: 0 auto;
+	
+}
+
+.form-control{
+	border: 1px solid #bdbdbd;
+	 border-radius: 3px; 
+	text-shadow: none;
+	padding: 5px;
+	margin:5px;
+}
+.btn{
+	width:80px;
+	margin-top: 5px;
+	font-size: 10pt;
+	height: 36px;
+}
+.btn.btn-danger{
+	border: 1px solid #82736e;
+	color: #82736e;
+	cursor: pointer;
+	background: white;
+}
+input[type="text"],input[type="password"],input[type="email"]{
+	font-size:10pt;
+	padding:7px;
+}

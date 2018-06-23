@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+<resultMap type="Category" id="resultCategory">
+	<id column="category_no" property="category_no" />
+	<result column="category_main" property="category_main" />
+	<result column="category_name" property="category_name" />
+</resultMap>
+	
+<select id="selectCategory" parameterType="category" resultType="category">
+	<![CDATA[
+		select * from category
+	]]>
+</select>
+
+<select id="selectCategory_main" parameterType="category" resultType="category">
+	<![CDATA[
+		select category_main from category group by category_main
+	]]>
+</select>
+
+<select id="selectCategory_name" parameterType="category" resultType="category">
+	<![CDATA[
+		select * from category where category_name = #{category_name}
+	]]>
+</select>
+
+<delete id="deleteCategory_main" parameterType="category">
+	<![CDATA[
+		delete from category where category_main=#{category_main}
+	]]>
+</delete>
+
+<delete id="deleteCategory_name" parameterType="category">
+	<![CDATA[
+		delete from category where category_no=#{category_no}
+	]]>
+</delete>
+
+<insert id="addCategory_main" parameterType="category" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into category values((select max(category_no) from category)+1,#{category_main},'더미')
+	]]>
+
+</insert>
+
+<insert id="addCategory_name" parameterType="category" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into category values((select max(category_no) from category)+1,#{category_main},#{category_name})
+	]]>
+
+</insert>
+
+<update id="updateCategory_main" parameterType="category" flushCache="true">
+	<![CDATA[
+		update category set category_main = #{category_main} where category_main = #{category_name}
+	]]>
+</update>
+
+<update id="updateCategory_name" parameterType="category" flushCache="true">
+	<![CDATA[
+		update category set category_name = #{category_name} where category_name = #{category_main}
+	]]>
+</update>
+</mapper>

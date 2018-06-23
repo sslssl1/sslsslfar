@@ -1,0 +1,921 @@
+@charset "UTF-8";
+
+.sidebox {
+	margin-top: 10px;
+	text-align: -webkit-center;
+	position: absolute;
+	right: 80px;
+	padding: 0px;
+	z-index: 1;
+}
+
+.your_profile_img{
+	
+	    vertical-align: top;
+}
+
+.msgA
+{
+	height: 55px;
+    width: 55px;
+    position: relative;
+    display: block;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+.msgbox {
+	border-width: 0px;
+	text-align: center;
+	align: center;
+	position: absolute;
+	right: 190px;
+	visibility: hidden;
+	z-index: 20;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+}
+.msgAlarm{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: 1px;
+    left: 55px;
+    bottom: 0px;
+    right: 0px;
+    border-radius: 10px;
+    background-color: red;
+    color: white;
+    line-height: 20px;
+    font-size: 10pt;
+	
+}
+
+.shoppinglist {
+	width: 100px;
+	height: 490px;
+	border: 1PX solid #dcdcdc;
+	padding-top: 0px;
+	background-color: white;
+}
+.shoppinglist>a {
+	text-decoration: none;
+	color: black;
+}
+.sh_list1, .sh_list2, .sh_list3 {
+	margin: 15px 15px 0px 15px;
+	width: 70px;
+	height: 80px;
+	background-size: cover;
+}
+
+.sh_list1, .sh_list2 {
+	margin-bottom: 2.5px;
+}
+
+.sh1_title, .sh1_title_last {
+	overflow: hidden;
+     text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* 라인수 */
+	-webkit-box-orient: vertical;
+
+	word-wrap:break-word; 
+	line-height: 1.3em;
+	height: 2.6em;
+    font-size: 10pt;
+    text-align: center;
+    height: 36px;
+    width: 94px;
+    overflow: hidden;
+}
+.page1 a {
+	text-decoration: none;
+	color: black;
+	height: auto;
+	width: auto;
+	display: inline-block;
+}
+
+.page1 a:hover {
+	background-color: #f2f2f2;
+}
+.msgframe {
+	border: 0px;
+	height: 640px;
+	width: 360px;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+}
+
+.msgIcon {
+	width: 55px;
+	height: 55px;
+}
+
+.pageupIcon {
+	width: 58px;
+	height: 58px;
+}
+
+.recent_list {
+	font-weight: bold;
+	font-size: 10pt;
+	margin: 5px;
+}
+
+.arrow {
+	color: gray;
+	background-color: #f2f2f2;
+	width: 100px;
+	height: 20px;
+	border: none;
+	border-bottom: 1px solid #DCDCDC;
+/* 	margin-bottom: 5px; */
+	line-height: 15px;
+}
+
+.arrow_bottom {
+	color: gray;
+	background-color: #f2f2f2;
+	width: 100px;
+	height: 20px;
+	border: none;
+	border-bottom: 1px solid #DCDCDC;
+	margin-bottom: 5px;
+	line-height: 15px;
+	border-top: 1px solid #DCDCDC;
+	position: absolute;
+top: 543px;
+}
+
+.move_top {
+	border: 1px solid #dcdcdc;
+	width: 100px;
+	height: 50px;
+	background-color: white;
+	text-decoration: none;
+}
+
+.move_top_atag {
+	text-decoration: none;
+	color: black;
+}
+
+.move_top_atag:visited, .move_top_atag:link, .move_top_atag:active,
+	.move_top_atag:hover {
+	color: black;
+}
+
+/* 메신저 상단부분 */
+.msg_top_div {
+	border-radius: 10px 10px 0 0;
+	width: 340px;
+	height: 68px;
+	background-color: #98c779;
+	padding: 0px;
+	position: absolute;
+	z-index: 2;
+	visibility: visible;
+}
+
+.msg_top_div_title {
+	width: 340px;
+	font-size: 15pt;
+	padding-top: 21px;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+}
+
+.msg_top_div img {
+	width: 23px;
+	height: 23px;
+	position: absolute;
+	top: 23px;
+	right: 314px;
+	visibility: hidden;
+}
+
+.msg_top {
+	position: relative;
+}
+
+.msg_top_table {
+	border-radius: 10px 10px 0 0;
+	width: 340px;
+	height: 68px;
+	background-color: #98c779;
+	padding: 0px;
+	z-index: 1;
+	visibility: hidden;
+	position: absolute;
+}
+
+.messenger_list_title {
+	color: white;
+	font-size: 15pt;
+}
+
+.messenger_back {
+	width: 23px;
+	text-align: left;
+}
+
+.messenger_back img {
+	width: 23px;
+	height: 23px;
+	margin-top: 8px;
+}
+.messenger_back_count{
+width: 20px;
+    height: 20px;
+    background-color: white;
+    font-size: 11px;
+    border-radius: 10px;
+    color: #98c779;
+    font-weight: 900;
+    line-height: 20px;
+}
+.messenger_title {
+	float: left;
+}
+
+.messenger_title img {
+	width: 44px;
+	height: 44px;
+	margin-right: 5px;
+	margin-top: 4px;
+	border-radius: 22px;
+	border: 1px solid #ced590;
+}
+
+.msg_title_name {
+	text-align:left;
+	margin-top: 2px;
+   width: 222px;
+    max-height: 23px;
+    color: #ffffffdb;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+    display: inline-block;
+    white-space: nowrap;
+}
+.msg_title_name:hover {
+    white-space: unset;
+    max-height: none;
+    overflow: unset;
+    text-overflow: unset;
+    float: left;
+    display: block;
+}
+.msg_title_online {
+    text-align: left;
+    font-size: 10pt;
+    color: #478318;
+    font-weight: 900;
+}
+
+.msg_alram{
+	position:absolute;
+	    font-size: 10pt;
+    color: black;
+	top: 10px;
+    bottom: 0px;
+    left: 123px;
+    right: 0px;
+    height: 24px;
+    padding-bottom: 5px;
+    border-bottom-width: 1px;
+    margin-bottom: 5px;
+}
+
+.messenger_close {
+	width: 103px;
+	text-align: right;
+	vertical-align: text-top;
+	padding-left: 13px;
+	padding-top: 1px;
+	padding-right: 1px;
+	font-size: 15pt;
+}
+
+.messenger_close img {
+	width: 24px;
+	height: 24px;
+}
+
+/* 메신저 하단 메세지 입력부분 */
+.msg_bottom {
+	width: 342px;
+	height: 75px;
+	background-color: #8EBD6F;
+	padding: 0px;
+	margin: 0px;
+	border-radius: 0 0 10px 10px;
+	position: absolute;
+	top: 555px;
+}
+
+.msg_bottom_table {
+	visibility: hidden;
+}
+
+.msg_bottom_table tr th {
+	padding: 0px;
+	margin: 0px;
+	height: 36px;
+}
+
+.msg_input {
+	width: 270px;
+	padding-left: 9px;
+	height: 23px;
+	margin-left: 10px;
+	outline-width: 0;
+	background-color: #fdfef6;
+	border: 0;
+	border-radius: 3px;
+}
+
+.send_msg_icon {
+	width: 32px;
+	height: 28px;
+	padding: 0px;
+	margin-left: 6px;
+	margin-top: 3px;
+}
+
+/* 여기부터 메세지 쪽 */
+.msg_middle {
+	height: 477px;
+	width: 340px;
+	background-color: #fdfef6;
+	overflow: hidden;
+	position: relative;
+	top: 68px;
+}
+
+.msg_table_middle {
+	width: 321px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 10px;
+	height: 457px;
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	visibility: hidden;
+	display: block;
+	    white-space: unset;
+}
+
+.msg_table_middle tr {
+	height: auto;
+}
+
+.msg_middle_left, .msg_middle_left_img {
+	/* 상대방 메세지 td,프로필사진*/
+	width: 250px;
+	float: left;
+	word-break: break-all;
+}
+
+.msg_middle_left {
+	/* 상대방 메세지 td */
+	margin-left: 60px;
+}
+
+
+.your_profile_image {
+	/* 상대방 프로필사진 */
+	width: 44px;
+	height: 44px;
+	margin-right: 10px;
+	border-radius: 22px;
+	border: 1px solid #f5f7e4;
+}
+
+msg_middle_left_img tr td {
+	font-size: 9pt;
+}
+
+.msg_middle_right {
+	/* 내 메시지 td */
+	/* width: 250px;
+	float: right; */
+	word-break: break-all;
+}
+
+.msg_date, .msg_date table
+{
+	width:304px;
+	margin-bottom: 13px;
+	margin-top: 13px;
+}
+.msg_date td
+{
+	padding:0px;
+	
+}
+.msg_date hr
+{
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-color:#f2f2f2;
+}
+.msg_date th
+{
+	padding:0px;
+	font-size: 7pt;
+	width:118px;
+	font-weight: 400;
+	color:#bcbcbc;
+}
+
+.msg_both
+{
+	min-height: 34px;
+	
+}
+.msg_leftBox
+{
+	min-height: 34px;
+	display: table-row;
+}
+.msg_rightBox
+{
+	min-height: 34px;
+	width:304px;
+	position: relative;
+}
+.msg_rightBox th{
+	position: relative;
+	  
+}
+.msg_rightBox th div
+{
+	position: absolute;
+	font-size: 8pt;
+	bottom: 5px;
+    right: 4px;
+}
+.msg_rightBox tr{
+	height: auto;
+	    display: inline-flex;
+    float: right;
+}
+.msg_my {
+	/* 내 메세지 창 */
+	/* #FAF79D */
+	/*  #FCE4A8  */
+	max-width: 180px;
+	width: auto;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	background-color: #e1f5d5;
+	font-size: 9pt;
+	padding: 5px;
+	/* margin-right: 20px; */
+	margin-bottom: 5px;
+	text-align: left;
+	float: right;
+	word-break: break-all;
+	display: block;
+}
+
+.msg_you {
+	/* 상대방 메세지 창 */
+	padding: 5px;
+	max-width: 180px;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	background-color: #f1f3e363;
+	font-size: 9pt;
+	text-align: left;
+	float: left;
+	word-break: break-all;
+	margin-bottom: 5px;
+	display: block;
+}
+
+div.msg_you {
+	margin-left: 58px;
+}
+
+.msg_time
+{	
+	width:304px;
+	min-height: 17px;
+	display: inline-block;
+}
+
+.msg_time_you {
+	/* 상대방 시간 */
+	font-size: 8pt;
+	text-align: left;
+	float: left;
+	width: 250px;
+	margin-left: 58px;
+}
+
+.msg_time_my {
+	/* 내 시간 */
+	font-size: 8pt;
+	/* margin-right: 20px; */
+	text-align: right;
+	float: right;
+	width: 250px;
+	word-break: break-all;
+}
+
+.messenger_frame {
+	border: 2px solid #98c779;
+	border-radius: 13px;
+	height: 620px;
+	width: 340px;
+}
+.chat_send_file{
+	width: 30px;
+}
+.chat_send_file_font
+{
+	
+	color: black;
+	font-size: 15px;
+    vertical-align: super;
+}
+.chat_send_file_a
+{
+	text-decoration: none;
+	color: black;
+}
+#img_a img
+{
+	height: 26px;
+    margin-left: 9px;
+}
+#file_a img
+{
+	height: 26px;
+    margin-left: 9px;
+}
+.chat_send_img
+{
+	width:144px;
+	cursor: pointer;
+}
+.msg_img_down_btn img
+{
+	width: 20px;
+}
+.list_content_img_icon
+{
+	height: 30px;
+}
+.list_content_img_span
+{
+	    line-height: 30px;
+    height: 30px;
+    vertical-align: top;
+}
+.msg_img_down_btn
+{
+	text-decoration: none;
+	color: black;
+	margin-top: 10px;
+}
+/* msg_list.jsp */
+.chat_list_table {
+	width: 340px;
+	height: 445px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	top: 32px;
+	z-index: 2;
+}
+
+.chat_list_table tr {
+	margin-top: 10px;
+}
+
+.list_profile {
+	width: 50px;
+	height: 44px;
+}
+
+.list_profile img {
+	width: 44px;
+	height: 44px;
+	border: 1px solid #f5f7e4;
+	border-radius: 22px;
+}
+
+.list_name {
+	font-size: 10pt;
+	font-weight: 1000;
+}
+
+.list_time {
+	font-size: 8pt;
+	float: right;
+	margin-right: 11px;
+}
+
+.list_content {
+	font-size: 11pt;
+	font-weight: 100;
+	margin-right: 10px;
+	/* 	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	background-color: #F9FAF2; */
+	max-width: 220px;
+	height: 30px;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+	text-decoration: none;
+}
+.list_alarm{
+	font-size: 8pt;
+    font-weight: 100;
+	    float: right;
+    margin-right: 11px;
+    text-align: center;
+    width: 16px;
+    height: 16px;
+    background-color: #98c779;
+    border-radius: 8px;
+    color: #fdfef6;
+}
+.chat_list_table a {
+	text-decoration: none;
+	color: black;
+}
+
+.chat_list_table a:visited, .chat_list_table a:link, .chat_list_table a:active,
+	.chat_list_table a:hover {
+	color: black;
+}
+
+.chat_list_table table {
+	width: 340px;
+	padding: 5px 10px 0px 10px;
+}
+
+.chat_list_table a:hover table {
+	background-color: #e1f5d5;
+}
+
+/* msg_list 끝 */
+
+/* msg_search */
+.search_member {
+	width: 334px;
+	height: 24px;
+	padding: 3px;
+	line-height: 24px;
+	border-bottom: 2px solid #98c779;
+	z-index: 2;
+	visibility: visible;
+	position: relative;
+}
+
+.search_member>a {
+	width: 15px;
+	height: 18px;
+	padding: 0px;
+	margin-left: 5px;
+	text-decoration: none;
+	position: absolute;
+	top: 5px;
+}
+
+.search_member>a>img {
+	width: 15px;
+	height: 15px;
+}
+
+.search_member>input {
+	border: 0px;
+	background-color: #fdfef6;
+	outline-width: 0;
+	width: 250px;
+	position: absolute;
+	right: 59px;
+	top: 7px;
+}
+
+.search_member>input::placeholder {
+	color: #BCBCBC;
+}
+
+.search_list {
+	width: 340px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: 445px;
+	position: absolute;
+	top: 32px;
+	visibility: hidden;
+	z-index: 1;
+}
+
+.searchNotFoundID {
+	width: 324px;
+	text-align: center;
+	margin-top: 54px;
+	color: #4d7632;
+	font-size: 12pt;
+}
+
+.searchNotFoundMsg {
+	width: 324px;
+	text-align: center;
+	margin-top: 12px;
+	font-size: 9pt;
+	color: #a69a9a;
+}
+
+.searchedMember {
+	width: 340px;
+	height: 54px;
+	padding: 3px 10px 3px 10px;
+}
+
+
+.searchedMember img {
+	width: 44px;
+	height: 44px;
+	border-radius: 22px;
+	float: left;
+	border: 1px solid #f5f7e4;
+}
+.searchMemberId{
+	  float: left;
+    font-size: 14px;
+    margin-left: 16px;
+    width: 160px;
+    height: 18px;
+    overflow: hidden;
+}
+.searchMemberName{
+	  float: left;
+    font-size: 13px;
+    font-weight:900;
+    margin-left: 16px;
+    width: 160px;
+    height: 18px;
+    overflow: hidden;
+}
+.searchMemberNametd{
+	padding-bottom: 0px;
+    padding-top: 5px;
+}
+.searchMemberIdtd{
+	    padding-top: 0px;
+    padding-bottom: 5px;
+}
+table.searchedMember:hover{
+	background-color: #e1f5d5;
+}
+
+
+.searchedMember input {
+	float: right;
+	width: 76px;
+	margin: 0px 5px 0px 0px;
+	border-radius: 5px;
+	border: 0px;
+	height: 26px;
+	background-color: #98c779;
+	outline-width: 0;
+	cursor: pointer;
+	color: #fdfef6;
+	font-weight: bold;
+}
+
+/* msg_search 끝 */
+
+/* 알람메세지 */
+.sell_alarm_head{
+    text-align: center;
+    font-size: 11pt;
+    width: 180px;
+    height: 30px;
+    background-color: #512772;
+    color: white;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.sell_warning_head{
+	text-align: center;
+    font-size: 11pt;
+    width: 180px;
+    height: 30px;
+    background-color: #e6473b;
+    color: white;
+    line-height: 30px;
+    vertical-align: middle;
+	
+}
+.sell_warning_head img{
+	    width: 15px;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+.sell_alarm_head img{
+	    width: 15px;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
+.sell_alarm_img{
+width:180px;
+margin-top:4px;
+}
+.sell_alarm_title{
+    width: 93px;
+    max-height: 75px;
+        overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    font-size: 14pt;
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+.sell_alarm_name{
+	font-size: 10pt;
+}
+
+.sell_alarm_table{
+	width: 180px;
+	border-top: 1px solid #BDBDBD;
+	padding: 5px 10px 5px 0px;
+}
+.sell_alarm_table td:nth-child(1)
+{	min-width:36px;
+	text-align: left;
+	vertical-align: top;
+}
+.sell_alarm_table td:nth-child(2)
+{
+	text-align: right;
+}
+.sell_alarm_link{
+	width: 100px;
+	height: 50px;
+}
+
+/*질문 메시지*/
+.qes_alarm_head{
+    text-align: center;
+    font-size: 11pt;
+    width: 180px;
+    height: 30px;
+    background-color: #7e5957;
+    color: white;
+    line-height: 30px;
+    vertical-align: middle;
+}
+.qes_alarm_head img{
+	    width: 15px;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
+.qes_alarm_img{
+	width:180px;
+	margin-top:4px;
+}
+.qes_alarm_table{
+	width: 100%;
+}
+.qes_alarm_table tr{
+	width: 170px; 
+    height: 17px;
+    white-space: nowrap;
+}
+.qes_alarm_table td:nth-child(1)
+{
+	text-align: left;
+	width: 70px;
+}
+.qes_alarm_table td:nth-child(2)
+{
+	text-align: right;
+	width: 90px;
+}

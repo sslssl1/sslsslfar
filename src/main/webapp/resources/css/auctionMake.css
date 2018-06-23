@@ -1,0 +1,149 @@
+@charset "UTF-8";
+
+
+.jung_table {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 5px solid #7e5957;
+}
+
+.jung_table2 {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.jung_table3 {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 30px;
+}
+
+.main_width {
+	width: 100%;
+}
+
+.tr1 {
+	border: 1px solid #ddd;
+}
+
+.tr2 {
+	border-right: 1px solid #ddd;
+	background-color: #F7F5F8;
+	border-left: 1px solid #ddd;
+}
+
+.td1 {
+	width: 20.000%;
+	border-right: 1px solid #ddd;
+	background-color: #F7F5F8;
+}
+
+.td2 {
+	width: 80.000%;
+	padding: 8px;
+}
+
+.td3 {
+	width: 20.000%;
+	border-right: 1px solid #ddd;
+	background-color: #F7F5F8;
+	border-left: 1px solid #ddd;
+}
+
+.td4 {
+	width: 20.016;
+	padding: 8px;
+}
+
+.td5 {
+	width: 20.0000%;
+	border-right: 1px solid #ddd;
+}
+
+.td6 {
+	width: 80.0000%;
+	padding: 8px;
+}
+
+.input_text_box {
+	margin-left: 24px;
+}
+
+.input_checkbox {
+	margin-left: 15px;
+}
+
+.input_datebox {
+	width: 78%;
+}
+
+.p {
+	text-align: center;
+	color: #383838;
+	margin: 0;
+}
+
+.h3 {
+	text-align: center;
+}
+
+.ui {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.li {
+	float: left;
+	margin-right: 15px;
+}
+
+.li2 {
+	float: left;
+}
+.li3:hover{
+	background:#7e5957;
+	color:#fff;
+}
+.li3 {
+	border:1px solid #7e5957;
+	float: right;
+	margin-left: 15px;
+	padding: 8px;
+	background: #fff;
+	cursor: pointer;
+	margin-top: 15px;
+	color: #7e5957
+}
+
+.li4:hover{
+	background:#7e5957;
+	
+}
+.li4 {
+	border:1px solid #7e5957;
+	float: right;
+	padding: 8px;
+	background: #fff ;
+	cursor: pointer;
+	margin-top: 15px;
+	color: #7e5957;
+}
+.li4_input:hover{
+	background:#7e5957;
+	color:#fff;
+}
+.li4_input{
+	border:none;
+	background: #fff;
+	color: #7e5957;
+	font-size:11pt;
+}
+
+.img_box{
+	text-align: center;
+   background-size: cover;
+   width: 420px;
+   height: 280px;
+   border: 1px solid #dcdcdc;
+}

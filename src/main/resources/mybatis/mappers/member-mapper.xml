@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<resultMap type="Member" id="resultMember">
+		<id column="member_id" property="member_id" />
+		<result column="member_pwd" property="member_pwd" />
+		<result column="member_name" property="member_name" />
+		<result column="member_category" property="member_category" />
+		<result column="member_addr" property="member_addr" />
+		<result column="member_tel" property="member_tel" />
+		<result column="member_approval" property="member_approval" />
+		<result column="member_withdraw" property="member_withdraw" />
+		<result column="member_img" property="member_img" />
+	</resultMap>
+
+
+	<select id="loginMember" parameterType="member" resultType="member">
+		<![CDATA[
+			select * from member where member_id=#{member_id}
+		]]>
+	</select>
+	<select id="selectIdCheck" parameterType="string" resultType="member">
+		<![CDATA[
+			select * from member where member_id=#{member_id}
+		]]>
+	</select>
+	<select id="selectMemberList" parameterType="PageNumber"
+		resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	) where rnum >=#{startRow} and rnum <=#{endRow}
+	
+	]]>
+	</select>
+
+	<insert parameterType="Member" id="insertMember"
+		useGeneratedKeys="true" statementType="PREPARED" flushCache="true">
+		<![CDATA[ insert into member values (
+					#{member_id}, #{member_pwd}, #{member_category}, #{member_name}, 
+					#{member_addr}, #{member_tel} ]]>
+		<if test="member_category == 0">
+		<![CDATA[,'N']]>
+		</if>
+		<if test="member_category != 0">
+		<![CDATA[,'Y']]>
+		</if>
+		<![CDATA[, #{member_img},'N',0)]]>
+	</insert>
+
+	<select id="findId" parameterType="member" resultType="member">
+		<![CDATA[
+			select * from member where member_id=#{member_id} and member_name=#{member_name}
+		]]>
+
+	</select>
+
+	<update parameterType="member" id="updatePwd" flushCache="true">
+		<![CDATA[
+			update member set member_pwd = #{member_pwd} where member_id = #{member_id}
+		]]>
+	</update>
+
+	<select id="selectMember" parameterType="string" resultType="Member">
+<![CDATA[
+	select member_name, member_img, member_approval, member_id, member_withdraw, MEMBER_WARNING_COUNT from member where member_id=#{member_id2}
+]]>
+	</select>
+
+
+	<select id="selectMemberName" parameterType="PageNumber"
+		resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	)where rnum >=#{startRow} and rnum <=#{endRow} and member_name like '%'||#{keyword}||'%'
+	]]>
+	</select>
+
+	<select id="selectMemberId" parameterType="PageNumber"
+		resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	)where rnum >=#{startRow} and rnum <=#{endRow} and member_id like '%'||#{keyword}||'%'
+	]]>
+	</select>
+	<select id="memberCount" parameterType="int" resultType="int">
+		select
+		count(*) from member
+	</select>
+	<select id="FarmerCount" parameterType="int" resultType="int">
+	<![CDATA[
+	select count(*) from member where member_category = 0
+	]]>
+	</select>
+	<select id="CommonCount" parameterType="int" resultType="int">
+	<![CDATA[
+	select count(*) from member where member_category = 1
+	]]>
+	</select>
+	<select id="ApprovalCount" parameterType="int" resultType="int">
+	<![CDATA[
+	select count(*) from member where member_approval = 'N'
+	]]>
+	</select>
+	<select id="WithdrawCount" parameterType="int" resultType="int">
+	<![CDATA[
+	select count(*) from member where member_withdraw = 'Y'
+	]]>
+	</select>
+
+	<update id="change_approval" parameterType="member" flushCache="true">
+	<![CDATA[
+			update member set member_approval = case when member_approval = 'Y' then 'N' else 'Y' end where member_id = #{member_id}
+		]]>
+	</update>
+
+	<update id="change_withdraw" parameterType="member" flushCache="true">
+	<![CDATA[
+			update member set member_withdraw = case when member_withdraw = 'Y' then 'N' else 'Y' end where member_id = #{member_id}
+		]]>
+	</update>
+	<select id="nowPwdCheck" parameterType="string" resultType="string">
+		select MEMBER_PWD from member where MEMBER_ID=#{member_id}
+	</select>
+	<update id="updateAddr" parameterType="member">
+		update member set
+		member_addr=#{member_addr} where member_id=#{member_id}
+	</update>
+
+	<select id="selectFarmer" parameterType="PageNumber" resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	) where rnum >=#{startRow} and rnum <=#{endRow} and member_category=0
+	
+	]]>
+	</select>
+
+	<select id="selectCommon" parameterType="PageNumber" resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	) where rnum >=#{startRow} and rnum <=#{endRow} and member_category=1
+	
+	]]>
+	</select>
+
+	<select id="selectApproval" parameterType="PageNumber"
+		resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	) where rnum >=#{startRow} and rnum <=#{endRow} and member_approval='N'
+	
+	]]>
+	</select>
+
+	<select id="selectWithdraw" parameterType="PageNumber"
+		resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	) where rnum >=#{startRow} and rnum <=#{endRow} and member_withdraw='Y'
+	
+	]]>
+	</select>
+
+	<select id="selectWarning" parameterType="PageNumber"
+		resultType="Member">
+	<![CDATA[
+	select * from (select rownum rnum, member_id, member_category, member_name, 
+	member_approval,member_withdraw,MEMBER_WARNING_COUNT from member 
+	) where rnum >=#{startRow} and rnum <=#{endRow} order by member_warning_count desc
+	
+	]]>
+	</select>
+
+	<select id="selectCheckId" parameterType="member" resultType="Member">
+<![CDATA[
+select * from MEMBER where MEMBER_ID = #{member_id}
+]]>
+	</select>
+	<insert id="insertNaverSignUp" parameterType="member">
+<![CDATA[
+insert into member values (
+					#{member_id}, 0, 1, #{member_name}, 
+					#{member_addr}, #{member_tel}, 'Y', 'default.png','N',0)
+]]>
+	</insert>
+
+	<select id="buygraph" parameterType="member" resultType="market">
+	<![CDATA[
+	 select *
+  from  (select m.market_title , sum(b.buy_AMOUNT) as "buy_AMOUNT"  from MARKET m ,  BUY b 
+	where m.MARKET_NO = b.MARKET_NO and m.member_id = #{member_id} group by m.market_title,m.market_no order by sum(buy_AMOUNT) desc) where ROWNUM <=5
+	]]>
+	</select>
+
+	<update id="updateWarning" parameterType="member">
+<![CDATA[
+	update member set MEMBER_WARNING_COUNT = #{member_warning_count} where member_id = #{member_id} and 
+	MEMBER_WARNING_COUNT != #{member_warning_count}
+]]>
+	</update>
+
+	<select id="selectMemberInfo" parameterType="string" resultType="member">
+<![CDATA[
+	select member.MEMBER_ID,member.MEMBER_NAME,member.MEMBER_ADDR from member left join userpoint on member.MEMBER_ID = userpoint.MEMBER_ID where member.member_id = #{member_id}
+]]>
+	</select>
+
+	<select id="selectAllcount" resultType="member">
+<![CDATA[
+	select * from (select count(member_id) as "membercount" from member),(select count(market_no) as "marketcount"  from market),(select count(auction_no) as "auctioncount" from auction),(select count(visit_no) as "visitcount" from visit)
+]]>
+	</select>
+
+	<select id="newmarket" parameterType="member" resultType="market">
+	<![CDATA[
+	 select market_no , market_title , member_id , market_releasedate from market where rownum <= 5 ORDER by market_no desc
+	]]>
+	</select>
+
+	<select id="newauction" parameterType="member" resultType="auction">
+	<![CDATA[
+	select auction_no ,auction_title , member_id , auction_status from auction where rownum <= 5 order by auction_no desc
+	]]>
+	</select>
+
+	<select id="allmarketAmount" parameterType="member" resultType="market">
+	<![CDATA[
+	select sum(market_amount) as "market_amount" from market where member_id = #{member_id}
+	]]>
+	</select>
+
+	<select id="allbuyAmount" parameterType="member" resultType="market">
+	<![CDATA[
+		select sum(b.buy_amount) as buy_amount  from market m , buy b where m.market_no = b.market_no and m.member_id = #{member_id}
+	]]>
+	</select>
+
+	<select id="buydategraph" parameterType="member" resultType="market">
+	<![CDATA[
+	select *
+  	from  (select m.market_title as "market_title" , sum(b.buy_AMOUNT) as "buy_AMOUNT" , b.buy_date from MARKET m ,  BUY b 
+	where m.MARKET_NO = b.MARKET_NO and m.member_id = #{member_id} group by m.market_title,m.market_no,b.buy_date order by b.buy_date asc) where ROWNUM <=6
+	]]>
+	</select>
+
+
+</mapper>

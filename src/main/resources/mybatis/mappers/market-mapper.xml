@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="market">
+
+
+	<select id="marketList" parameterType="pageNumber" resultType="market">
+			<![CDATA[	
+			select * from 
+				(select rownum rnum, market_no,
+				market_title,market_releasedate,market_note,market_img,market_amount,remaining,
+				member_id,market_price from (
+				select m.market_no,nvl(sum(buy_amount),0) remaining,count(buy_no),m.category_no,m.member_id,m.market_title,m.market_note,m.market_img,m.market_releasedate,m.market_amount,m.market_intro,m.market_complete,m.market_price 
+				FROM market m 
+				LEFT JOIN buy b on b.market_no = m.market_no
+			]]>
+		
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="search != null">
+			<![CDATA[
+				AND market_title like '%'||#{search}||'%'
+			]]>
+			</if>
+			<if test="ctype != null">
+			<![CDATA[
+				AND category_no in ((SELECT category_no FROM category WHERE category_main like #{ctype} ))
+			]]>
+			</if>
+			<if test="cname != null">
+			<![CDATA[
+				AND category_no in ((SELECT category_no FROM category WHERE category_name like #{cname} ))
+			]]>
+			</if>
+			<![CDATA[
+				AND market_complete = '0'
+			]]>
+		</trim>
+		
+		<![CDATA[
+			GROUP BY m.market_no,m.category_no,m.member_id,m.market_title,m.market_note,m.market_img,
+			m.market_releasedate,m.market_amount,m.market_intro,m.market_complete,m.market_price 
+		]]>
+		
+		<if test="sort == 'market_no'">
+		<![CDATA[		
+			order by 
+			market_no desc)) where rnum >= #{startRow} and rnum <= #{endRow}		
+		]]>
+		</if>
+		
+		<if test="sort == 'market_price'">
+		<![CDATA[		
+			order by
+			market_price asc)) where rnum >= #{startRow} and rnum <= #{endRow}
+		]]>
+		</if>
+		<if test="sort == 'buy'">
+		<![CDATA[		
+			order by
+			count(buy_no) desc)) where rnum >= #{startRow} and rnum <= #{endRow}
+		]]>
+		</if>
+	</select>
+	
+	<select id="marketInfo" parameterType="int" resultType="market">
+	<![CDATA[
+		select mb.MEMBER_NAME, m.market_no,m.category_no,m.member_id,m.market_title,m.market_note,m.market_img,m.market_releasedate,m.market_amount,m.MARKET_INTRO,m.MARKET_PRICE, nvl(sum(b.buy_amount),0) remaining,c.category_main,c.category_name from member mb, market m 
+			left join buy b on m.market_no =b.market_no
+			left join category c on m.category_no = c.category_no
+			where m.market_no = #{market_no} and mb.MEMBER_ID = m.MEMBER_ID
+			group by m.market_no,m.category_no,m.member_id,m.market_title,m.market_note,m.market_img,m.market_releasedate,m.market_amount,m.MARKET_INTRO,m.MARKET_PRICE,mb.MEMBER_NAME,c.category_main,c.category_name
+	]]>
+	
+	</select>
+	
+	<select id="reviewList" parameterType="pageNumber" resultType="Review">
+	<![CDATA[
+		select * from (select rownum rnum, review_no,review_title,member_id,review_date from (select review_no,review_title,member_id,review_date from review where market_no =#{market_no}
+	]]>
+	<if test="reviewSearch != null">
+		<![CDATA[
+				AND review_title like '%'||#{reviewSearch}||'%'
+		]]>
+	</if>
+		<![CDATA[
+		order by review_no desc)) where rnum>= #{startRow} and rnum <=#{endRow}
+		]]>
+		
+	
+	
+	
+	</select>
+	
+	<select id="reviewCount" parameterType="pageNumber" resultType="int" >
+	 <![CDATA[
+	 select count(*) from review where market_no = #{market_no}
+	 ]]>
+	 <if test="reviewSearch != null">
+		<![CDATA[
+				AND review_title like '%'||#{reviewSearch}||'%'
+		]]>
+	</if>
+	 
+	</select>
+	<select id="reviewDetail" parameterType="int" resultType="Review">
+		select * from review where review_no = #{review_no}
+	</select>
+
+	<insert id="insertMarket" parameterType="Market" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into market values((select max(market_no) from market)+1,#{category_no},#{member_id},#{market_title},#{market_note},#{market_img},
+		#{market_releasedate},#{market_amount},#{market_intro},'0',#{market_price})
+	]]>
+	</insert>
+	
+	
+	<insert id="insertMarket_qna" parameterType="market_qna" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into market_qna values((select max(market_qna_no) from market_qna)+1,#{market_no},#{member_id},sysdate,null,null,#{market_qna_title},#{market_qna_contents}
+		,1)
+	]]>
+	</insert>
+	
+	<insert id="insertReview" parameterType="review" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into review values((select max(review_no) from review)+1,#{member_id},#{market_no},sysdate,#{review_title},#{review_contents}
+		)
+	]]>
+	</insert>
+	<select id="dailyList" parameterType="int" resultType="Daily">
+	<![CDATA[
+		select * from daily where market_no = #{market_no} order by daily_no desc
+	]]>
+	</select>
+	<insert id="insertMarketDaily" parameterType="Daily" flushCache="true" useGeneratedKeys="true">
+		<![CDATA[
+		insert into daily values((select max(daily_no) from daily)+1,#{market_no},sysdate,#{daily_title},#{daily_contents}
+		)
+	]]>
+	</insert>
+	
+	<select id="selectHomeNewMarketList" resultType="market">
+	<![CDATA[
+		select * from(
+select rownum rnum, market_no,category_no,member_id,
+market_title,market_note,market_img,market_releasedate,market_amount,remaining,
+		market_intro,market_complete,market_price
+from(select m.market_no,category_no,m.member_id,
+		market_title,market_note,market_img,market_releasedate,market_amount,nvl(sum(buy_amount),0) remaining,
+		market_intro,market_complete,market_price from market m
+    left join buy on m.market_no = buy.market_no 
+    group by m.market_no,category_no,m.member_id,
+		market_title,market_note,market_img,market_releasedate,market_amount,
+		market_intro,market_complete,market_price
+    order by market_no desc)where market_amount-remaining > 0) market where rnum>=1 and rnum<=2
+	]]>
+	</select>
+	
+	<select id="selectHomePopularMarketList" resultType="market">
+	<![CDATA[
+		select * from market where market_no in (
+			(select market_no from (
+			select rownum rnum,remaining,market_no,market_amount from (
+			select nvl(sum(b.buy_amount),0) remaining,count(*), b.market_no,m.market_amount from buy b
+			left join market m on m.market_no = b.market_no
+			GROUP BY b.market_no,m.market_amount order by count(*) desc) where market_amount - remaining > 0)
+			WHERE rnum >= 1 and rnum <=4))
+	]]>
+	</select>
+	
+	<select id="dailyDetail" parameterType="int" resultType="Daily">
+		select daily.daily_no,daily.market_no,daily.daily_contents,daily.daily_date,daily.daily_title,market.member_id from daily
+		LEFT JOIN market ON daily.market_no = market.market_no where daily_no = #{daily_no}
+	</select>
+	
+	<select id="reviewReply" parameterType="PageNumber" resultType="Reply"><!-- 여기 page처리해야됨!  -->
+	<![CDATA[
+		select * from(select rownum rnum,reply_no,reply_contents,reply_date,member_id from
+		(select reply_no,reply_contents,reply_date,member_id from (select * from reply where review_no = #{review_no} )order by reply_no desc))
+		where rnum >=#{startRow} and rnum <= #{endRow}
+	]]>
+	</select>
+	<select id="reviewReplyCount" parameterType="int" resultType="int">
+		select count(*) from reply where review_no = #{review_no}
+	</select>
+	<select id="reviewUnderReply" parameterType="hashmap" resultType="UnderReply">
+		select * from under_reply where reply_no in
+		<foreach collection="underReplyList" index="index" item="item" open="(" close=")" separator="," >
+			#{item}
+		</foreach>
+		order by under_reply_date
+	</select>
+	
+	
+	<select id="dailyReply" parameterType="PageNumber" resultType="Reply"><!-- 여기 page처리해야됨!  -->
+	<![CDATA[
+		select * from(select rownum rnum,reply_no,reply_contents,reply_date,member_id from
+		(select reply_no,reply_contents,reply_date,member_id from (select * from reply where daily_no = #{daily_no} )order by reply_no desc))
+		where rnum >=#{startRow} and rnum <= #{endRow}
+	]]>
+	</select>
+	<select id="dailyReplyCount" parameterType="int" resultType="int">
+		select count(*) from reply where daily_no = #{daily_no}
+	</select>
+	<select id="dailyUnderReply" parameterType="hashmap" resultType="UnderReply">
+		select * from under_reply where reply_no in
+		<foreach collection="underReplyList" index="index" item="item" open="(" close=")" separator="," >
+			#{item}
+		</foreach>
+		order by under_reply_date
+	</select>
+	
+	<insert id="insertReviewReply" parameterType="reply" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into reply values((select max(reply_no)+1 from reply)
+	]]>
+		<if test="review_no != null and review_no != ''">
+			,#{review_no},null
+		</if>
+		<if test="daily_no != null and daily_no != ''">
+			,null,#{daily_no}
+		</if>
+	<![CDATA[
+		,#{member_id},#{reply_contents},sysdate)
+	]]>
+	</insert>
+	<insert id="insertUnderReply" parameterType="UnderReply" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into under_reply values((select max(under_reply_no)+1 from under_reply),#{reply_no}
+		,#{member_id},#{under_reply_content},sysdate)
+	]]>
+	</insert>
+	<delete id="deleteReply" parameterType="Reply">
+		delete from reply where reply_no = #{reply_no}
+	</delete>
+	<delete id="deleteUnderReply" parameterType="UnderReply">
+		delete from under_reply where under_reply_no = #{under_reply_no}
+	</delete>
+	<update id="updateReplyNull" parameterType="Reply">
+		update reply set reply_contents = null where reply_no = #{reply_no}
+	</update>
+	<update id="updateReply" parameterType="Reply">
+		update reply set reply_contents = #{reply_contents} where reply_no = #{reply_no}
+	</update>
+	<update id="updateUnderReply" parameterType="Reply">
+		update under_reply set under_reply_content = #{under_reply_content} where under_reply_no = #{under_reply_no}
+	</update>
+	
+	<update id="updateReview" parameterType="Review">
+		update review set review_title = #{review_title}, review_contents = #{review_contents} where review_no = #{review_no}
+	</update>
+	<update id="updateDaily" parameterType="Daily">
+		update daily set daily_title = #{daily_title}, daily_contents = #{daily_contents} where daily_no = #{daily_no}
+	</update>
+	<delete id="deleteDaily" parameterType="Daily">
+		delete from daily where daily_no = #{daily_no}
+	</delete>
+	<delete id="deleteReview" parameterType="Review">
+		delete from review where review_no = #{review_no}
+	</delete>
+	<select id="selectCategory" parameterType="string" resultType="Category2">
+	<![CDATA[
+		select * from category where category_main like #{ctype}
+	]]>
+	</select>
+	<select id="selectCusMarketThree" resultType="Market">
+	<![CDATA[
+	select market_no,market_title,market_price from market where market_no in(select market_no from buy)
+	]]>
+	</select>
+	<select id="selectSellerMarketList" parameterType="PageNumber" resultType="Market">
+	<![CDATA[
+	select * from(
+		select m.market_no,market_title,market_note,market_img,market_price,market_amount,nvl(sum(buy_amount),0) remaining from market m
+		left join buy b on m.market_no = b.market_no
+		where m.member_id = #{member_id} and m.market_no <> #{market_no}
+		GROUP BY m.market_no,market_title,market_note,market_img,market_price,market_amount
+		order by m.market_no desc)
+	where market_amount-(remaining) > 0
+	]]>
+	</select>
+	<select id="selectSellerMarketCount" parameterType="PageNumber" resultType="int">
+	<![CDATA[
+	select count(*) from market where member_id = #{member_id} and market_no <> #{market_no}
+	]]>
+	</select>
+	
+	<select id="selectCategoryList" resultType="Category2">
+	<![CDATA[
+	select distinct category_main from category order by category_main
+	]]>
+	
+	</select>
+	<select id="selectCategoryNameList" parameterType="string" resultType="Category2">
+	<![CDATA[
+	select category_no,category_name from category where category_main = #{category_main} order by category_name
+	]]>
+	</select>
+	<select id="selectSellerMarketHistory" parameterType="PageNumber" resultType="Market">
+	<![CDATA[
+	select * from (select rownum rnum, A.* from(select * from market where member_id=#{member_id} order by market_no desc) A where rownum <= #{endRow})where rnum >= #{startRow}
+	]]>
+	</select>
+	<select id="selectSellerMarketHistoryCount" parameterType="int" resultType="int">
+	select
+		count(*) from market
+	</select>
+	<update id="updateMarketDel" parameterType="int">
+		update market set market_complete = 2 where market_no = #{market_no}
+	</update>
+	<update id="updateMarket" parameterType="market">
+		update market set market_title=#{market_title},market_note=#{market_note},
+		market_releasedate = #{market_releasedate},market_intro=#{market_intro},
+		category_no = #{category_no},market_amount = #{market_amount},market_price=#{market_price}
+		<if test="market_img != null">
+			,market_img = #{market_img}
+		</if>
+		 where market_no = #{market_no}
+	</update>
+</mapper>

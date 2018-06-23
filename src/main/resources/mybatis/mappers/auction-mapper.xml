@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auction">
+
+	<resultMap type="Auction" id="resultAuction">
+		<id column="auction_no" property="auction_no" />
+		<result column="member_id" property="member_id" />
+		<result column="category_no" property="category_no" />
+		<result column="auction_title" property="auction_title" />
+		<result column="auction_note" property="auction_note" />
+		<result column="auction_img" property="auction_img" />
+		<result column="auction_startdate" property="auction_startdate" />
+		<result column="auction_enddate" property="auction_enddate" />
+		<result column="auction_intro" property="auction_intro" />
+		<result column="auction_status" property="auction_status" />
+		<result column="auction_startprice" property="auction_startprice" />
+		<result column="auction_directprice" property="auction_directprice" />
+	</resultMap>
+
+	<resultMap type="AuctionQnA" id="resultAuctionQnA">
+		<id column="auction_qna_no" property="auction_qna_no" />
+		<result column="member_id" property="member_id" />
+		<result column="auction_category" property="auction_category" />
+		<result column="auction_no" property="auction_no" />
+		<result column="AUCTION_QNA_QUESTION_DATE" property="AUCTION_QNA_QUESTION_DATE" />
+		<result column="AUCTION_QNA_ANSWER" property="AUCTION_QNA_ANSWER" />
+		<result column="AUCTION_QNA_ANSWER_DATE" property="AUCTION_QNA_ANSWER_DATE" />
+		<result column="AUCTION_QNA_TITLE" property="AUCTION_QNA_TITLE" />
+		<result column="AUCTION_QNA_CONTENTS" property="AUCTION_QNA_CONTENTS" />
+	</resultMap>
+	
+	<insert id="insertAuctionMake" parameterType="auction"
+		flushCache="true" useGeneratedKeys="true">
+	
+	<![CDATA[
+		insert into auction values((select nvl( max(auction_no),0) from auction)+1,#{member_id},1,#{auction_title},#{auction_note},#{auction_img},#{auction_intro},
+		'0',#{auction_startprice},#{auction_directprice},to_date(#{auction_startdate},'YY-MM-DD'),to_date(#{auction_enddate},'YY/MM/DD'))
+	]]>
+	</insert>
+
+	<select id="selectAuctionList" parameterType="pageNumber"
+		resultType="auction">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, auction_no,auction_status,
+			auction_title,auction_note,auction_img,
+			member_id from (select * from auction order by 
+			auction_no desc)) where rnum >= #{startRow} and rnum <= #{endRow} 
+			and auction_status != '5' 
+	]]>
+	</select>
+	
+	
+	<select id="selectajaxAuctionListCount" resultType="int">
+	<![CDATA[
+		select count(*) from auction where auction_status != '5' 
+	]]>
+	</select>
+	
+
+	<select id="selectAuctionDetail" parameterType="auction"
+		flushCache="true" resultType="auction">
+	<![CDATA[
+		select 
+		 auction_no,member_id, category_no, auction_title, auction_note,auction_img, 
+		 auction_intro,auction_status,auction_startprice,
+		auction_directprice, to_char(auction_startdate,'YYYY-MM-DD') as "auction_startdate",
+		to_char(auction_enddate,'YYYY-MM-DD') as "auction_enddate"
+		from auction where auction_no=#{auction_no}
+	]]>
+	</select>
+
+
+	<delete id="deleteAuction" parameterType="auction">
+	<![CDATA[
+		update auction set auction_status='5' where auction_no=#{auction_no}
+	]]>
+	</delete>
+
+	<select id="selectmodifyAuction" parameterType="auction"
+		flushCache="true" resultType="auction">
+	<![CDATA[
+		select 
+		 auction_no,member_id, category_no, auction_title, auction_note,auction_img, 
+		 auction_intro,auction_status,auction_startprice,
+		auction_directprice, to_char(auction_startdate,'YYYY-MM-DD') as "auction_startdate",
+		to_char(auction_enddate,'YYYY-MM-DD') as "auction_enddate"
+		from auction where auction_no=#{auction_no}
+	]]>
+	</select>
+
+	<update id="updateAuctionMake" parameterType="Auction">
+	<![CDATA[
+		update auction set auction_title=#{auction_title},auction_note=#{auction_note},auction_img=#{auction_img},
+		auction_intro=#{auction_intro},auction_startprice=#{auction_startprice},auction_directprice=#{auction_directprice} ,
+		auction_startdate=#{auction_startdate},auction_enddate=#{auction_enddate} 
+		where auction_no = #{auction_no}
+	]]>
+	</update>
+
+	<insert id="insertAuctionQnAMake" parameterType="auctionqna"
+		flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into auction_qna values((select nvl(max(auction_qna_no),0) from auction_qna)+1,#{auction_no},#{member_id},sysdate,null,
+		null,#{auction_qna_title},#{auction_qna_contents},'1')
+	]]>
+	</insert>
+
+	<select id="selectAuctionQnAList" parameterType="pageNumber"
+		resultType="AuctionQnA">
+	<![CDATA[
+		select * from (select rownum rnum, auction_qna_no,auction_qna_title,member_id,auction_qna_question_date from auction_qna where auction_no =#{auction_no}
+		order by auction_qna_no desc) where rnum>= #{startRow} and rnum <=#{endRow}
+	]]>
+	</select>
+
+
+	<select id="selectAuctionQnACount" parameterType="int"
+		resultType="int">
+	<![CDATA[
+		select count(*) from auction_qna where auction_no = #{auction_no}
+	]]>
+	</select>
+
+
+	<select id="selectAuctionQnADetail" parameterType="AuctionQnA"
+		resultType="AuctionQnA">
+	<![CDATA[
+		select * from auction_qna where auction_qna_no = #{auction_qna_no}
+	]]>
+	</select>
+
+
+	<select id="selectshowAuctionQnAModify" parameterType="AuctionQnA"
+		resultType="AuctionQnA">
+	<![CDATA[
+		select * from auction_qna where auction_qna_no = #{auction_qna_no}
+	]]>
+	</select>
+
+	<update id="updateAuctionQnA" parameterType="AuctionQnA">
+		<![CDATA[
+		update auction_qna set AUCTION_QNA_TITLE=#{auction_qna_title},AUCTION_QNA_CONTENTS=#{auction_qna_contents}
+		where AUCTION_QNA_NO=#{auction_qna_no}
+	]]>
+	</update>
+
+	<update id="updateauctionQnA_Answer" parameterType="AuctionQnA">
+	<![CDATA[
+		update auction_qna set auction_qna_answer=#{auction_qna_answer},auction_qna_answer_date=sysdate
+		where AUCTION_QNA_NO=#{auction_qna_no}
+	]]>
+	</update>
+
+	<select id="selectHomeAuctionList" resultType="Auction">
+	<![CDATA[
+		select * from (select rownum rnum,auction_no,member_id,category_no,auction_title,auction_note,
+		 auction_img,auction_startdate,auction_enddate,auction_intro,auction_status,
+		auction_startprice,auction_directprice from auction order by auction_no desc) where rnum>=1 and rnum <=12
+	]]>
+	</select>
+
+	<update id="updateSellerAuctionQnAanswer" parameterType="AuctionQnA">
+	<![CDATA[
+		update auction_qna set auction_qna_answer=#{auction_qna_answer},auction_qna_answer_date=sysdate
+		where AUCTION_QNA_NO=#{auction_qna_no}
+	]]>
+	</update>
+
+
+	<select id="selectseller_QnAanswer" parameterType="AuctionQnA"
+		resultType="AuctionQnA">
+	<![CDATA[
+		select * from auction_qna where auction_qna_no = #{auction_qna_no}
+	]]>
+	</select>
+
+	<update id="delete_auction_qna_answer" parameterType="AuctionQnA">
+	<![CDATA[
+		update auction_qna set auction_qna_answer=null,auction_qna_answer_date=null
+		where AUCTION_QNA_NO=#{auction_qna_no}
+	]]>
+	</update>
+
+	
+	<select id="selectcheckAuction_history_price"  parameterType="int"  resultType="AuctionHistory" >
+	<![CDATA[
+		select nvl(max(ah.auction_history_price),0) as "auction_history_price",a.auction_startprice,a.AUCTION_DIRECTPRICE
+		from auction_history ah, auction a
+		where ah.auction_no = a.auction_no
+		and ah.auction_no = #{auction_no} GROUP BY auction_startprice, a.AUCTION_DIRECTPRICE
+	]]>
+	</select>
+	
+	<!-- 경매 입찰 등록 -->
+	<insert id="insertAuctionBidding" parameterType="AuctionHistory" flushCache="true" useGeneratedKeys="true">
+	<![CDATA[
+		insert into auction_history values((select nvl(max(auction_history_no),0) from auction_history)+1,
+		#{auction_no},#{member_id},#{auction_history_price},sysdate)
+	]]>
+	</insert>
+	
+	
+	<select id="selectAuctionBiddingList"  parameterType="int"  resultType="AuctionHistory" >
+	<![CDATA[
+		select * from auction_history where auction_no = #{auction_no} order by auction_history_price desc
+	]]>
+	</select> 
+	
+	<select id="selectAuctionBiddingCount" parameterType="int" resultType="int">
+	<![CDATA[
+		select count(*) from auction_history where auction_no = #{auction_no}
+	]]>
+	</select>
+	
+	
+	<update id="updateAuctionStatus" parameterType="int">
+	<![CDATA[
+		update auction set auction_status =
+  		case when sysdate BETWEEN auction_startdate and auction_enddate then '1'
+      	when auction_startdate > sysdate then '0'
+      	else '2'
+     	end 
+    	where  not auction_status in('2','3','4','5') 
+	]]>
+	</update>
+	
+	<select id="selectauction_timeRemaining" parameterType="int" resultType="auction">
+	<![CDATA[
+		select to_char(auction_enddate, 'Month DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE=ENGLISH') 
+		as "auction_enddate" , auction_status
+		from auction where auction_no = #{auction_no}
+
+	]]>
+	</select>
+	
+		
+	<select id="selectAuction_searchTitle" parameterType="PageNumber" resultType="AuctionQnA" >
+	<![CDATA[
+		select * from (select rownum rnum, member_id,auction_qna_no, auction_qna_title, auction_qna_question_date
+		from auction_qna where auction_no = #{auction_no}) where rnum >=#{startRow} and rnum <=#{endRow} and auction_qna_title like '%'||#{keyword}||'%'
+		order by auction_qna_no DESC
+	]]>
+	</select>
+	
+	<select id="selectAuction_searchMember_id" parameterType="PageNumber" resultType="AuctionQnA" >
+	<![CDATA[
+		select * from (select rownum rnum, member_id,auction_qna_no, auction_qna_title, auction_qna_question_date
+		from auction_qna where auction_no = #{auction_no}) where rnum >=#{startRow} and rnum <=#{endRow} and member_id like '%'||#{keyword}||'%'
+		order by auction_qna_no DESC
+	]]>
+	</select>
+		
+		
+	
+	<select id="selectAuction_searchCount" parameterType="int" resultType="int" >
+	<![CDATA[
+		select count(*) from auction_qna where auction_no = #{auction_no}
+	]]>
+	</select>
+	
+	
+	<select id="selectAuctionCusQnaList" parameterType="PageNumber" resultType="AuctionQnA">
+	<![CDATA[
+	select * from (select rownum rnum, auction_qna_no,auction_qna_title,member_id,auction_qna_question_date 
+	from auction_qna order by auction_qna_no desc) where rnum>= #{startRow} and rnum <=#{endRow}
+	]]>
+	</select>
+	
+	<select id="selectAuctionCusQnaListCount" parameterType="int" resultType="int">
+	<![CDATA[
+		select
+		count(*) from auction_qna
+	]]>
+	</select>
+
+	<select id="selectLeft_AuctionStandBy" parameterType="PageNumber" resultType="Auction">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, auction_no,
+			auction_title,auction_note,auction_img,auction_status,
+			member_id from (select * from auction order by 
+			auction_no desc)) where rnum >= #{startRow} and rnum <= #{endRow} 
+			and auction_status = '0' 
+	]]>
+	</select>
+	
+	
+	<select id="selectLeft_AuctionProgress" parameterType="PageNumber" resultType="Auction">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, auction_no,
+			auction_title,auction_note,auction_img,auction_status,
+			member_id from (select * from auction order by 
+			auction_no desc)) where rnum >= #{startRow} and rnum <= #{endRow} 
+			and auction_status = '1'
+	]]>
+	</select>
+	
+	<select id="selectLeft_AuctionFinish" parameterType="PageNumber" resultType="Auction">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, auction_no,
+			auction_title,auction_note,auction_img,auction_status,
+			member_id from (select * from auction order by 
+			auction_no desc)) where rnum >= #{startRow} and rnum <= #{endRow} 
+			and auction_status in( '2','3','4')
+	]]>
+	</select>
+	
+	<select id="selectLeft_boxLatest" parameterType="PageNumber" resultType="Auction">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, auction_no,
+			auction_title,auction_note,auction_img,auction_status,
+			member_id from (select * from auction order by 
+			auction_no desc)) where rnum >= #{startRow} and rnum <= #{endRow} 
+			and auction_status != '5'
+	]]>
+	</select>
+	
+	<select id="selectLeft_AuctionStandByCount" parameterType="int" resultType="int">
+	<![CDATA[
+		select count(*) from auction where auction_status = '0'
+	]]>
+	</select>
+	
+	<select id="selectLeft_AuctionProgressCount" parameterType="int" resultType="int">
+	<![CDATA[
+		select count(*) from auction where auction_status = '1'
+	]]>
+	</select>
+	
+	<select id="selectLeft_AuctionFinishCount" parameterType="int" resultType="int">
+	<![CDATA[
+		select count(*) from auction where auction_status in( '2' , '3', '4') 
+		or auction_status = '4'
+	]]>
+	</select>
+	
+	<select id="selectLeft_boxLatestCount" parameterType="int" resultType="int">
+	<![CDATA[
+		select count(*) from auction where auction_status != '5' 
+	]]>
+	</select>
+
+
+	
+	<select id="select_auction_background" parameterType="String" resultType="Auction">
+	<![CDATA[
+		 select ROWNUM rum, auction_no,member_id,auction_title from auction 
+		where member_id = #{member_id} and auction_status != '5' order by auction_no DESC
+	]]>
+	</select>
+	
+	
+	<select id="selectmoreAuctionCategory" parameterType="PageNumber" resultType="Auction">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, auction_no,
+			auction_title,auction_note,auction_img,auction_status,
+			member_id from (select * from auction order by 
+			auction_no desc)) where rnum >= #{startRow} and rnum <= #{endRow} 
+			and auction_status != '5' 
+	]]>
+	<if test="select == 0">
+	<![CDATA[
+		and auction_status = '0'
+	]]>
+	</if>
+	<if test="select == 1">
+	<![CDATA[
+		and auction_status = '1'
+	]]>
+	</if>
+	<if test="select == 2">
+	<![CDATA[
+		and auction_status in( '2','3','4')
+	]]>
+	</if>
+	<if test="select == 3">
+	<![CDATA[
+		order by auction_no desc 
+	]]>
+	</if>
+	</select>
+	
+	<update id="updateAuctionStatusDeadline" parameterType="int" flushCache="true">
+	<![CDATA[
+		update auction set auction_status = '4' where (select auction_enddate from auction where auction_no = #{auction_no}) + 3 <= sysdate
+		and auction_no = #{auction_no}
+	]]>
+	</update>
+	
+	<update id="updateAuctionBuyComplete" parameterType="int" flushCache="true">
+	<![CDATA[
+		update auction set auction_status = '3' where auction_no = #{auction_no}
+	]]>
+	</update>
+	
+	<update id="updateAuctionBuy" parameterType="int" flushCache="true">
+	<![CDATA[
+		update auction set auction_status = '2' ,auction_enddate = sysdate where auction_no = #{auction_no}
+	]]>
+	</update>
+	
+	<insert id="insertAuctionBuy" parameterType="Auction" >
+	<![CDATA[
+		insert into buy values((select nvl(max(buy_no),0) from buy)+1,(select nvl(max(group_no),0) from buy)+1,null,#{auction_no},#{member_id},sysdate,
+		1,
+		(select member_addr from member where member_id = #{member_id}),
+		(select member_tel from member where member_id = #{member_id}),
+		(select member_name from member where member_id = #{member_id}),
+		'0',null,null,null)
+	]]>
+	</insert>
+	
+	<select id="selectAuctionBuy" parameterType="int" resultType="Payment">
+	<![CDATA[
+		 select * from buy where auction_no =#{auction_no}
+	]]>
+	</select>
+	
+	<select id="selectAuctionPayment" parameterType="int" resultType="Payment">
+	<![CDATA[
+		  select b.buy_no,b.group_no, a.auction_no, b.member_id,m.member_name,m.MEMBER_TEL,m.MEMBER_ADDR,b.buy_date,b.buy_amount,b.buy_addr,b.buy_tel,b.buy_name,b.buy_status,a.AUCTION_IMG
+ 		  from buy b, auction a, member m
+ 		  where b.auction_no = a.auction_no
+ 		  and b.member_id = m.member_id 
+		  and b.BUY_NO = #{buy_no}
+	]]>
+	</select>
+	
+	
+	<select id="selectAuction" parameterType="int" resultType="Auction">
+	<![CDATA[
+		 select * from auction where auction_no = #{auction_no}
+	]]>
+	</select>
+	
+
+	<select id="selectAuctionPaymentInfoFromCS" parameterType="AuctionCommon" resultType="AuctionOrder">
+	<![CDATA[
+	select ac.AUCTION_IMG, ac.AUCTION_NO, ac.AUCTION_TITLE, ac.AUCTION_NOTE, mb.MEMBER_NAME, mb.MEMBER_ID,ah.AUCTION_HISTORY_PRICE as "auction_directprice"
+	from auction ac, member mb, AUCTION_HISTORY ah
+	where ac.member_id = mb.member_id and ac.auction_no = #{auction_no} and ac.auction_no = ah.AUCTION_NO 
+  and ah.AUCTION_HISTORY_PRICE = #{auction_history_price}
+  and ah.AUCTION_HISTORY_DATE = 
+    (select min(AUCTION_HISTORY_DATE) 
+      from AUCTION_HISTORY
+      where AUCTION_HISTORY_PRICE = #{auction_history_price}
+      and auction_no = #{auction_no})
+	]]>
+	</select>
+
+	<select id="selectAuctionPaymentInfo" parameterType="int" resultType="AuctionOrder">
+	<![CDATA[
+	select ac.AUCTION_IMG, ac.AUCTION_NO, ac.AUCTION_TITLE, ac.AUCTION_NOTE, mb.MEMBER_NAME, mb.MEMBER_ID,ac.AUCTION_DIRECTPRICE
+	from auction ac, member mb
+	where ac.member_id = mb.member_id and ac.auction_no = #{auction_no}
+	]]>
+	
+	</select>
+	
+	
+	<insert id="insertAuctionPayment" keyProperty="buy_no" parameterType="Payment" >
+	<![CDATA[
+	insert into buy values (#{buy_no},(select nvl ( max(group_no),0 )+1 as "group_no" from buy),null,#{auction_no},#{member_id},sysdate,1,#{buy_addr},#{buy_tel},#{buy_name},'1',#{buy_request},null,null)
+	]]>
+	<selectKey  resultType="int" keyProperty="buy_no"  statementType="STATEMENT" order="BEFORE"  >
+	<![CDATA[
+	select nvl ( max(buy_no),0 )+1 as "buy_no" from buy
+	]]>
+	</selectKey>
+	</insert>
+
+	<insert id="insertMaxpriceAuction" parameterType="Auction" >
+	<![CDATA[
+		insert into auction_history values((select nvl(max(auction_history_no),0) from auction_history)+1,
+		#{auction_no},'system',#{auction_startprice},sysdate)
+	]]>
+	</insert>
+	
+	
+	<select id="selectAuction_no" parameterType="String" resultType="int">
+	<![CDATA[
+		 select nvl(max(auction_no),0) as "auction_no" from auction where member_id = #{member_id}
+	]]>
+	</select>
+	
+	<select id="selectprice" parameterType="int" resultType="int">
+	<![CDATA[
+		 select nvl(max(auction_history_price),0) as "auction_history_price" from auction_history where auction_no =#{auction_no}
+	]]>
+	</select>
+
+	
+	<select id="selectDay" parameterType="int" resultType="int">
+	<![CDATA[
+		 select to_char(trunc (TO_DATE (auction_enddate, 'YYYY/MM/DD HH24:MI:SS') 
+		 - TO_DATE (sysdate, 'YYYY/MM/DD HH24:MI:SS'), 0)) as "day"
+		from auction where auction_no =#{auction_no}
+	]]>
+	</select>
+	
+	<select id="selectb"  resultType="AuctionHistory" >
+	<![CDATA[
+		select ah.auction_no, max(ah.AUCTION_HISTORY_PRICE) as "AUCTION_HISTORY_PRICE",ah.member_id,a.auction_title
+		from auction a, auction_history ah where a.auction_status = 2 
+		group by ah.auction_no,ah.member_id,a.auction_title
+	]]>
+	</select>
+	
+	
+	<insert id="insertdirectprice" parameterType="AuctionCommon" >
+	<![CDATA[
+		insert into auction_history values((select nvl(max(auction_history_no),0) from auction_history)+1,
+		#{auction_no},#{member_id},(select AUCTION_DIRECTPRICE from auction where auction_no = #{auction_no} ),sysdate)
+	]]>
+	</insert>
+	
+	<select id="selectStatus_2"  resultType="Auction" >
+	<![CDATA[
+		select a.auction_no from auction a, auction_history ah
+		where a.auction_no = ah.auction_no
+		and a.auction_status in( '2','3','4') group by a.auction_no
+	]]>
+	</select>
+	
+	<select id="selectStatus_4" resultType="Auction">
+	<![CDATA[
+		select a.auction_no from auction a, auction_history ah
+		where a.auction_no = ah.auction_no
+		and a.auction_status = '4' group by a.auction_no
+	]]>
+	</select>
+	
+	<select id="selectWinBid"  parameterType="int"  resultType="AuctionCommon">
+	<![CDATA[
+		select ah.auction_no,ah.member_id,ah.auction_history_price,a.auction_title,a.auction_status
+		from auction_history ah, auction a where ah.auction_no = a.auction_no and
+		ah.AUCTION_HISTORY_PRICE = (select max(AUCTION_HISTORY_PRICE) as "AUCTION_HISTORY_PRICE" 
+    	from auction_history where auction_no = #{auction_no} ) 
+   		and ah.auction_no = #{auction_no}
+      and ah.AUCTION_HISTORY_DATE = 
+      (select min(AUCTION_HISTORY_DATE)
+      from auction_history
+      where AUCTION_HISTORY_PRICE = (select max(AUCTION_HISTORY_PRICE) as "AUCTION_HISTORY_PRICE" 
+    	from auction_history where auction_no = #{auction_no} ) 
+    	and auction_no = #{auction_no}
+      )order by a.auction_no desc
+	]]>
+
+	</select>
+	
+	<select id="selectMiscarry" parameterType="String" resultType="int">
+		<![CDATA[
+		select count(ah.member_id) from auction_history ah, auction a where a.auction_status = '4' and a.auction_no = ah.auction_no 
+		and ah.member_id = #{member_id}
+		]]>
+	</select>
+	
+	<select id="selectbid" parameterType="int" resultType="Auction">
+		<![CDATA[
+		select auction_no, member_id, auction_title, auction_status, 
+		auction_startprice,auction_directprice, 
+		to_char(auction_startdate, 'YYYY/MM/DD') as "auction_startdate", 
+		to_char(auction_enddate, 'YYYY/MM/DD') as "auction_enddate"
+		from auction 
+		where auction_no = #{auction_no}
+		
+		]]>
+	</select>
+	
+</mapper>

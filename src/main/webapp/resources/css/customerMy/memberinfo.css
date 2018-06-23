@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+.Info{
+   float: left;
+   width: 900px;
+   
+   height: 400px;
+   margin: 0px;
+}
+.Info.show{
+	    margin-top: 10px;
+    /* border-right: 1px solid #dcdcdc; */
+}
+.Info.update{
+   padding-left: 15px;
+   
+}
+.info_box{
+   margin-top: 40px;
+}
+
+.Info_title{
+   width: 300px;
+   height:40px;
+   text-align:left;
+   font-size: 14pt;
+   color: #7e5957;
+   font-weight: bold;
+   padding-left: 15px; 
+   margin-top:10px;
+}
+
+.hr{
+   margin: 0px;
+   width: 700px;
+   text-align: left;
+   float: left;
+   /* margin-left: 15px; */
+    border: 0.5px solid #dcdcdc;
+    
+}
+.hr.second{
+   border: 1px solid #a69189;
+}
+.hr1{
+   width:0px;
+   height:200px;
+   float: left;
+    margin-top: 50px;
+    border: 0.5px solid #dcdcdc;
+}
+
+.update_table{
+margin-left: 10px;   
+
+border-collapse: collapse;
+
+border-left:none;
+border-right:none;
+
+}
+.member_input{
+   height:20px;
+   padding:5px;
+   border-radius: 5px;
+   border : 1px solid #bdbdbd;
+}
+.update_table td{
+padding: 10px;
+font-size:10pt;
+font-weight:bold;
+color: #7e5957;
+
+margin: 0px;
+
+}
+
+/* .update_table tr td:nth-child(2){
+   border-bottom: 1px solid #dcdcdc;
+} */
+.update_table tr:last-child td{
+	  border-bottom:none; 
+}
+.update_table tr:nth-child(1) {
+   border-top: none;
+}
+
+.memberBtn:hover{
+	color:#7e5957;
+	background:white;
+	border: 1px solid #7e5957;
+}
+.memberBtn{
+	background: #7e5957;
+	color:white;
+	cursor:pointer;
+    border: none;
+    width:50px;
+    height:30px;
+    border-radius: 3px;
+}
+.kakaoBtn:hover{
+	color:#7e5957;
+	background:white;
+	border: 1px solid #7e5957;
+}
+.kakaoBtn{
+	background: #7e5957;
+	color:white;
+	cursor:pointer;
+    border: none;
+    width:50px;
+    height:30px;
+    border-radius: 3px;
+}
+.memberBtn.addr{
+	width:70px;
+}

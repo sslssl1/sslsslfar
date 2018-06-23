@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+
+	<select id="selectSellerPaymentHistory" parameterType="PageNumber" resultType="payment">
+	<![CDATA[
+select * from(select rownum rnum,A.* from (select A.* from(select 
+b.*,
+m.MARKET_TITLE 
+from buy b,MARKET 
+m where b.market_no in 
+(select market_no 
+from market 
+where member_id=#{member_id}) and b.market_no=m.MARKET_NO order by b.buy_no desc) A) A) where rnum <= #{endRow} and rnum >= #{startRow}
+	]]>
+	</select>
+	<select id="selectSellerPaymentHistoryCount" parameterType="int" resultType="int">
+		select
+		count(*) from buy
+	</select>
+
+	<select id="selectPaymentInfo" parameterType="hashmap" resultType="ShowBasket">
+			<![CDATA[
+	select mk.market_no, mb.MEMBER_NAME,mb.member_id, mk.MARKET_IMG, mk.MARKET_TITLE, mk.MARKET_NOTE, mk.MARKET_PRICE,sb.BUY_AMOUNT
+  from SHOP_BASKET sb, market mk, member mb
+  where mb.member_id=mk.member_id and mk.market_no=sb.MARKET_NO
+  and sb.member_id = #{member_id}
+  and sb.market_no in 	]]>
+		<foreach collection="buyList" index="index" item="item" open="(" close=")" separator="," >
+		#{item}
+		</foreach>
+		
+	</select>
+	
+	<select id="selectPaymentInfoOne" parameterType="ShoppingBasket"  resultType="ShowBasket">
+	<![CDATA[
+	select mk.market_no, mb.MEMBER_NAME,mb.member_id, mk.MARKET_IMG, mk.MARKET_TITLE, mk.MARKET_NOTE, mk.MARKET_PRICE
+  from market mk, member mb
+  where mb.member_id=mk.member_id and mk.market_no= #{market_no}
+	]]>
+	</select>
+	
+	<insert id="insertFirstPayment" keyProperty="group_no" parameterType="Payment">
+	
+	 <selectKey resultType="int" keyProperty="group_no"  statementType="STATEMENT" order="BEFORE" >
+	 select (case when max(group_no) is null then 0 else max(group_no) end)+1  as "group_no"  from buy
+	</selectKey>
+	
+	<![CDATA[
+	insert into BUY(BUY_NO,GROUP_NO,MEMBER_ID, BUY_STATUS ) values(
+	(select (case when max(BUY_NO) is null then 0 else max(BUY_NO) end)+1  as "buy_no"  from BUY),
+	#{group_no},#{member_id}  ,'0'
+	)
+	]]>
+	
+	</insert>
+	
+	<insert id="insertNewPayment" parameterType="Payment" keyProperty="buy_no">
+	
+	<selectKey resultType="int" keyProperty="buy_no" statementType="STATEMENT" order="BEFORE" >
+	select (case when max(BUY_NO) is null then 0 else max(BUY_NO) end)+1  as "buy_no"  from BUY
+	</selectKey>
+	
+	insert into BUY values(
+	#{buy_no},
+	#{group_no}, 
+	
+	<if test="market_no != 0">#{market_no},</if>
+	<if test="market_no == 0">null,</if>
+	<if test="auction_no != 0">#{auction_no},</if>	
+	<if test="auction_no == 0">null,</if>	
+	#{member_id}, sysdate, #{buy_amount}, #{buy_addr}, #{buy_tel}, #{buy_name}, '1', #{buy_request}, null,null)
+
+	</insert>
+	
+	<delete id="deleteFirstPayment" parameterType="int">
+	<![CDATA[
+	delete from BUY where group_no = #{group_no} and BUY_DATE is null and BUY_AMOUNT is null and BUY_ADDR is null and BUY_TEL is null and
+	BUY_NAME is null and  BUY_STATUS = '0' and BUY_REQUEST is null
+	]]>
+	
+	</delete>
+	
+	<select id="selectPaymentHistory" parameterType="PageNumber" resultType="payment">
+	<![CDATA[
+	select * from (select rownum rnum, BUY_NO, GROUP_NO, MARKET_NO, AUCTION_NO, MEMBER_ID, BUY_DATE, BUY_AMOUNT, BUY_ADDR, BUY_TEL, BUY_NAME, BUY_STATUS, BUY_REQUEST, BUY_TRANSPORT_NAME, BUY_TRANSPORT_NO from BUY 
+	order by BUY_NO desc) where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>
+	</select>
+	<select id="selectPaymentHistoryCount" parameterType="int" resultType="int">
+		select
+		count(*) from buy
+	</select>
+	
+	<delete id="deleteShoppingBasket" parameterType="payment" >
+		<![CDATA[
+		delete from SHOP_BASKET where MEMBER_ID = #{member_id} and MARKET_NO = #{market_no} and BUY_AMOUNT = #{buy_amount}
+		]]>
+	</delete>
+	
+	
+	<select id="selectChatNo" parameterType="hashmap" resultType="Integer">
+	
+	select chat_no from chat where (member_id1 = 'system' and member_id2 in
+	
+	
+	<foreach collection="member_id" index="index" item="item" open="(" close=")" separator="," >
+			#{item}
+	</foreach>
+	
+	) or ( member_id1 in
+	
+		<foreach collection="member_id" index="index" item="item" open="(" close=")" separator="," >
+			#{item}
+	</foreach>
+	
+	and member_id2 = 'system')
+	
+	</select>
+	
+	
+	<select id="selectOneChatNo" parameterType="String" resultType="int">
+	<![CDATA[		
+	select chat_no from chat where ( member_id1 = 'system' and member_id2 = #{your_id}  )   or ( member_id1 = #{your_id} and member_id2 = 'system' )
+	]]>
+	</select>
+	
+	<select id="selectOrderDeliveryDetail" parameterType="int" resultType="Payment">
+	<![CDATA[
+		select * from buy left join market on buy.market_no= market.market_no where buy_no =#{buy_no}
+	]]>
+	</select>
+	<update id="updateBuyComplete" parameterType="int">
+		update buy set buy_status = 4 where buy_no = #{buy_no}
+	</update>
+	
+	<insert id="insertPoint" parameterType="int">
+		insert into userpoint values ((select max(point_no)+1 from userpoint),(select market.MEMBER_ID from market left join buy on buy.market_no = market.market_no where buy_no = #{buy_no}),(select buy_amount*market_price from buy left join market on market.market_no = buy.market_no where buy_no = #{buy_no}))
+	</insert>
+	<update id="updateBuyTransport" parameterType="Payment">
+		update buy set buy_status = 2,buy_transport_name='한진',buy_transport_no=#{buy_transport_no} where buy_no = #{buy_no}
+	</update>
+</mapper>

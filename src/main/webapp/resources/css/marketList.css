@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+.top_margin{
+	margin-top:20px;
+}
+.market_write{
+	margin-right:14px;
+	border:none;
+	width:82px;
+	height:36px;
+	disply:inline-block;
+	font-size:12pt;
+	font-weight: bold;
+	color:gray;
+	float:right;
+	margin-bottom:10px;
+	background: #e4dcbc;
+	outline: none;
+    overflow: visible;
+    border-radius: 5px;	
+	cursor: pointer;
+	
+}
+.top_margin button{
+	margin-right:14px;
+	border:none;
+	width:90px;
+	height:40px;
+	disply:inline-block;
+	font-size:12pt;
+	font-weight: bold;
+	color:gray;
+	float:right;
+	margin-bottom:10px;
+	background: #e4dcbc;
+	outline: none;
+    overflow: visible;
+	
+}
+.sort{
+	width:215px; height:200px; border: 1px solid #dcdcdc;  
+	float:left;
+	margin-right: 20px;
+	margin-bottom: 15px;
+	padding-left: 15px;
+}
+
+
+.category_menu{
+	width:200px; border: 1px solid #dcdcdc;  
+	margin-left:0;
+	float: left;
+	margin-right: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}
+.left_box h4{
+	color:#462114;
+}
+	
+
+.market{
+	width:220px; height:272px; border: 1px solid #dcdcdc;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	
+}
+
+.left_box{
+	float: left;
+	width:230px;
+	color: gray;
+}
+
+.right_box{
+	float: right;
+	margin-left:33px;
+	width: 697px;
+}
+
+.more_market{
+	background-color: #f37636;
+	width: 687px;
+	height: 35px;
+	text-align: center;
+	color: white;
+	font-family: dotum;
+	border-color: #f37636;
+	border-style: none;
+	cursor: pointer;
+}
+
+.img_box{
+	width:220px;
+	height:170px;
+	border-bottom: 1px solid #dcdcdc;  
+}
+.title_box{
+	width:200px;
+	height:102px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.title{
+	 overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+	 font-size: 12pt; margin-bottom: 0 ;
+	 font-weight: bold;
+	 color:#462114;
+}
+
+.content{
+	 overflow: hidden;
+     text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* 라인수 */
+	-webkit-box-orient: vertical;
+
+	word-wrap:break-word; 
+	line-height: 1.2em;
+	height: 2.4em;
+	font-size: 10pt; 
+	margin-top: 0;
+	
+	color:#756059;
+	margin-bottom:0px;
+}
+.categoryP{
+	font-size:11pt;
+	color:gray;
+}

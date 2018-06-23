@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qna">
+
+<select id="qnaList" parameterType="PageNumber" resultType="Market_qna">
+	<![CDATA[
+	select * from(select rownum rnum, market_qna_no, market_qna_title, member_id,market_qna_question_date from (select market_qna_no, market_qna_title, member_id,market_qna_question_date from market_qna 
+	where market_no=#{market_no}
+	
+	]]>
+	<if test="qnaSearch != null">
+		<![CDATA[
+			AND market_qna_title like '%'||#{qnaSearch}||'%'
+		]]>
+	</if>
+	<![CDATA[
+		 order by market_qna_no desc)) where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>
+</select>
+	
+	<select id="qnaCount" parameterType="PageNumber" resultType="int">
+		select count(*) from market_qna where market_no = #{market_no}
+		<if test="qnaSearch != null">
+		<![CDATA[
+				AND market_qna_title like '%'||#{qnaSearch}||'%'
+		]]>
+	</if>
+	</select>
+	<select id="selectQna" parameterType="int" resultType="Market_qna">
+		select * from market_qna where market_qna_no = #{qna_no}
+	</select>
+	
+<select id="mainQnaList" parameterType="PageNumber" resultType="MainQna">
+	<![CDATA[
+	select * from(
+select rownum rnum,main_qna_no, main_qna_title, member_id,main_qna_date from (select main_qna_no, main_qna_title, member_id,main_qna_date from main_qna 
+	]]>
+	
+	<if test="qnaSearch != null">
+		<![CDATA[
+				where MAIN_QNA_TITLE like '%'||#{qnaSearch}||'%'
+		]]>
+	</if>
+	<![CDATA[
+	order by main_qna_no desc)) where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>
+	
+
+</select>
+<select id="mainQnaCount" parameterType="PageNumber" resultType="int">
+		<![CDATA[		
+		select count(*) from main_qna
+		]]>
+		<if test="qnaSearch != null">
+		<![CDATA[
+				where MAIN_QNA_TITLE like '%'||#{qnaSearch}||'%'
+		]]>
+	</if>
+	</select>
+	
+	
+	<select id="mainQnaDetail" parameterType="int" resultType="MainQna">
+	select * from main_qna where main_qna_no = #{main_qna_no}
+	</select>
+	
+	<update id="updateAnswer" parameterType="MainQna" >
+	<![CDATA[
+	update main_qna set main_qna_answer =#{main_qna_answer},main_qna_answer_date = sysdate where main_qna_no= #{main_qna_no}
+	]]>  
+	</update>
+	
+	<update id="deleteQnaAnswer" parameterType="int" >
+	<![CDATA[
+		update main_qna set main_qna_answer = null,main_qna_answer_date = null where main_qna_no= #{qanswer_no}
+	]]>  
+	</update>
+	
+	<insert id="insertMainQna" parameterType="MainQna" flushCache="true" useGeneratedKeys="true" >
+	
+	<![CDATA[
+	insert into main_qna values((select max(main_qna_no)+1 from main_qna),#{member_id},#{main_qna_title},
+	#{main_qna_contents},sysdate, null, null)
+	]]>  
+	</insert>
+	
+	
+	<update id="updateMainQna" parameterType="MainQna">
+	<![CDATA[
+	update main_qna set main_qna_title =#{main_qna_title}, main_qna_contents =#{main_qna_contents} where main_qna_no = #{main_qna_no}
+	]]>
+	</update>
+	<update id="updateMarketAnswer" parameterType="Market_qna" >
+	<![CDATA[
+		update market_qna set market_qna_answer =#{market_qna_answer}, market_qna_answer_date = sysdate where market_qna_no= #{market_qna_no}
+	]]> 
+	</update>
+	<update id="deleteMarketQnaAnswer" parameterType="int" >
+	<![CDATA[
+		update market_qna set market_qna_answer = null,market_qna_answer_date = null where market_qna_no= #{qanswer_no}
+	]]>
+	</update>
+	<update id="updateMarketQna" parameterType="Market_qna">
+	<![CDATA[
+		update market_qna set market_qna_title = #{market_qna_title}, market_qna_contents = #{market_qna_contents} where market_qna_no = #{market_qna_no}
+	]]>
+	</update>
+	<delete id="deleteMarketQna" parameterType="int">
+		delete from market_qna where market_qna_no = #{market_qna_no}
+	</delete>
+	<delete id="deleteMainQna" parameterType="int">
+		delete from main_qna where main_qna_no = #{main_qna_no}
+	</delete>
+	<select id="selectCusQnaList" parameterType="PageNumber" resultType="Market_qna">
+	<![CDATA[
+	select * from (select rownum rnum, market_qna_no, market_qna_title, member_id,market_qna_question_date from market_qna
+	order by market_qna_no desc) where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>
+	</select>
+	
+	<select id="selectCusQnaListCount" parameterType="int" resultType="int">
+		select
+		count(*) from market_qna
+	</select>
+	
+</mapper>
